@@ -3,39 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener</title>
+    <meta name="theme-color" content="#0b1020">
+    <meta name="description" content="Create clean, shareable short links in seconds.">
+    <title>Linkly — Simple URL Shortener</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-
-    <div class="container">
-        <h1>🔗 URL Shortener</h1>
-
-        <p>Turn long URLs into short, shareable links.</p>
-
-        <form action="/shorten" method="POST">
-            <input
-                type="text"
-                name="url"
-                placeholder="Enter your URL..."
-                required
-            >
-
-            <button type="submit">Shorten URL</button>
-        </form>
-
-        {% if short_url %}
-        <div class="result">
-            <p>Your shortened URL:</p>
-
-            <a href="{{ short_url }}" target="_blank">
-                {{ short_url }}
-            </a>
-        </div>
-        {% endif %}
-
-    </div>
-
+    <div class="orb orb-one"></div><div class="orb orb-two"></div>
+    <main class="page-shell">
+        <nav class="navbar" aria-label="Main navigation">
+            <a class="brand" href="{{ url_for('home') }}" aria-label="Linkly home"><span class="brand-mark">↗</span><span>linkly<span class="brand-dot">.</span></span></a>
+            <span class="status-pill"><span class="status-dot"></span> Fast &amp; free</span>
+        </nav>
+        <section class="hero" aria-labelledby="page-title">
+            <div class="eyebrow"><span>✦</span> Share smarter</div>
+            <h1 id="page-title">Links that go<br><span>places.</span></h1>
+            <p class="subtitle">Turn long, messy URLs into short links that are easy to share, remember, and love.</p>
+            <div class="shortener-card">
+                <form action="/shorten" method="POST" class="shorten-form">
+                    <label for="url" class="sr-only">URL to shorten</label>
+                    <div class="input-wrap"><span class="input-icon">⌁</span><input id="url" type="url" name="url" placeholder="Paste your long URL here..." autocomplete="url" required></div>
+                    <button type="submit">Shorten link <span>→</span></button>
+                </form>
+                <p class="hint"><span>⌘</span> No sign-up required&nbsp; · &nbsp;Your link is ready in seconds</p>
+                {% if short_url %}
+                <div class="result" role="status">
+                    <div class="result-heading"><span class="success-icon">✓</span><span>Your short link is ready</span></div>
+                    <div class="result-row"><a id="short-url" href="{{ short_url }}" target="_blank" rel="noopener">{{ short_url }}</a><button type="button" class="copy-button" onclick="copyLink(this)" aria-label="Copy shortened URL">Copy link</button></div>
+                    <span class="copy-feedback" aria-live="polite"></span>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        <section class="benefits" aria-label="Features">
+            <article class="benefit"><span class="benefit-icon violet">⚡</span><div><h2>Lightning fast</h2><p>Generate a link in one click.</p></div></article>
+            <article class="benefit"><span class="benefit-icon mint">⌁</span><div><h2>Clean &amp; memorable</h2><p>Simple links, zero clutter.</p></div></article>
+            <article class="benefit"><span class="benefit-icon peach">♢</span><div><h2>Always available</h2><p>Share whenever, wherever.</p></div></article>
+        </section>
+        <footer><span>Made for the web</span><span class="footer-line"></span><span>© 2025 Linkly</span></footer>
+    </main>
+    <script>
+        async function copyLink(button) {
+            const link = document.getElementById('short-url').href;
+            const feedback = document.querySelector('.copy-feedback');
+            try { await navigator.clipboard.writeText(link); button.textContent = 'Copied ✓'; button.classList.add('copied'); feedback.textContent = 'Copied to your clipboard'; setTimeout(() => { button.textContent = 'Copy link'; button.classList.remove('copied'); feedback.textContent = ''; }, 2200); }
+            catch (error) { feedback.textContent = 'Could not copy automatically — select the link to copy it.'; }
+        }
+    </script>
 </body>
 </html>
