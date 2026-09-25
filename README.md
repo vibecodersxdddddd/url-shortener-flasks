@@ -1,325 +1,212 @@
-# 🔗 URL Shortener - Flask Edition
+<div align="center">
 
-> **Transform long URLs into short, shareable links with style!**
+# ⚡ LinkForge
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat-square&logo=python)
-![Flask](https://img.shields.io/badge/Flask-2.0%2B-green?style=flat-square&logo=flask)
-![HTML5](https://img.shields.io/badge/HTML5-65.3%25-orange?style=flat-square&logo=html5)
-![License](https://img.shields.io/badge/License-MIT-purple?style=flat-square)
+### Turn giant URLs into tiny, shareable links.
+
+**A sleek, minimal URL shortener powered by Flask + SQLite.**
+
+<br />
+
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-lightweight-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Database](https://img.shields.io/badge/Database-SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![HTML](https://img.shields.io/badge/UI-HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+
+<br />
+
+[✨ Features](#-features) · [⚡ Quick start](#-quick-start) · [🔌 API](#-api) · [🗺️ Roadmap](#️-roadmap)
+
+</div>
 
 ---
+
+## 🎯 The idea
+
+Long links are messy. LinkForge gives them a clean, memorable identity in one click:
+
+```text
+https://example.com/articles/how-to-build-a-project
+                         ↓
+http://localhost:5000/aB3xYz
+```
+
+No accounts. No complicated setup. Just paste, shorten, share.
 
 ## ✨ Features
 
-- 🚀 **Lightning Fast URL Shortening** - Convert long URLs to short codes instantly
-- 🎯 **Easy to Use** - Simple, intuitive web interface
-- 📊 **Click Tracking** - Monitor how many times your shortened URLs are accessed
-- 🔐 **Secure** - Safe URL validation and handling
-- 💾 **Persistent Storage** - URLs are saved and retrievable
-- 🎨 **Beautiful UI** - Modern, responsive design with HTML5
-- 📱 **Mobile Friendly** - Works seamlessly on all devices
-- ⚡ **Lightweight** - Minimal dependencies, fast deployment
+| | Capability | What it does |
+|---|---|---|
+| 🚀 | **Instant shortening** | Creates a unique six-character code for every URL |
+| 🧠 | **Smart protocol handling** | Adds `https://` when a protocol is not supplied |
+| 🛡️ | **Safe database queries** | Uses SQLite parameterized queries for stored URLs |
+| 🔁 | **Fast redirects** | Resolves a short code and redirects to the original URL |
+| 🎨 | **Simple web UI** | A focused Flask template-based experience |
+| 📦 | **Tiny footprint** | Only Flask is required to run the application |
 
----
+## 🧰 Built with
 
-## 🛠️ Tech Stack
+- **Python** — application logic
+- **Flask** — routes, forms, rendering, and responses
+- **SQLite** — lightweight persistent URL storage
+- **HTML** — frontend templates
 
-| Technology | Purpose |
-|-----------|---------|
-| **Python** | Backend logic & server-side processing (34.7%) |
-| **Flask** | Lightweight web framework |
-| **HTML5** | Frontend & user interface (65.3%) |
-| **CSS3** | Styling & responsive design |
-| **SQLite/Database** | URL storage & retrieval |
+## ⚡ Quick start
 
----
+### 1. Clone
 
-## 📦 Installation
-
-### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
-- Virtual environment (recommended)
-
-### Setup Steps
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/vibecodersxdddddd/url-shortener-flasks.git
-   cd url-shortener-flasks
-   ```
-
-2. **Create a virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run the application**
-   ```bash
-   python app.py
-   ```
-
-5. **Open your browser**
-   Navigate to `http://localhost:5000`
-
----
-
-## 🚀 Quick Start
-
-### Shorten a URL
-1. Open the application in your browser
-2. Paste your long URL in the input field
-3. Click "Shorten" button
-4. Copy your new short URL and share it!
-
-### Access Shortened URL
-Simply visit your short URL, and you'll be redirected to the original link.
-
----
-
-## 📝 API Endpoints
-
-### Create Short URL
 ```bash
-POST /api/shorten
-Content-Type: application/json
-
-{
-  "url": "https://example.com/very/long/url/that/is/very/tedious"
-}
+git clone https://github.com/vibecodersxdddddd/url-shortener-flasks.git
+cd url-shortener-flasks
 ```
 
-**Response:**
-```json
-{
-  "short_url": "http://localhost:5000/abc123",
-  "original_url": "https://example.com/very/long/url/that/is/very/tedious",
-  "clicks": 0
-}
-```
+### 2. Create an isolated environment *(recommended)*
 
-### Redirect to Original URL
 ```bash
-GET /:short_code
+python -m venv .venv
+
+# macOS / Linux
+source .venv/bin/activate
+
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
 ```
 
-### Get Statistics
+### 3. Install
+
 ```bash
-GET /api/stats/:short_code
+pip install -r requirements.txt
 ```
 
----
+### 4. Launch 🚀
 
-## 📊 Project Structure
-
+```bash
+python app.py
 ```
+
+Open **[http://localhost:5000](http://localhost:5000)** and shorten your first link.
+
+> The SQLite database (`urls.db`) is initialized automatically when the app starts.
+
+## 🔌 API
+
+### Create a short URL
+
+The current app accepts a form submission at `POST /shorten`:
+
+```bash
+curl -X POST http://localhost:5000/shorten \
+  -d "url=https://github.com/vibecodersxdddddd/url-shortener-flasks"
+```
+
+The response renders the home page with the generated short URL.
+
+### Follow a short URL
+
+```http
+GET /<short_code>
+```
+
+Example:
+
+```bash
+curl -i http://localhost:5000/aB3xYz
+```
+
+A known code redirects to its original URL. Unknown codes return `404 URL not found`.
+
+## 🧭 How it works
+
+```mermaid
+flowchart LR
+    A[Paste long URL] --> B[POST /shorten]
+    B --> C[Generate unique code]
+    C --> D[(SQLite urls.db)]
+    D --> E[Return short link]
+    E --> F[GET /code]
+    F --> G[Redirect to original URL]
+```
+
+1. The form sends a URL to `/shorten`.
+2. Missing protocols are normalized to `https://`.
+3. A random six-character alphanumeric code is generated.
+4. The URL and code are stored in SQLite.
+5. Visiting the code looks up the destination and redirects.
+
+## 🗂️ Project map
+
+```text
 url-shortener-flasks/
-├── app.py                 # Main Flask application
-├── requirements.txt       # Python dependencies
-├── templates/
-│   ├── index.html        # Home page
-│   └── dashboard.html    # Stats dashboard
-├── static/
-│   ├── css/
-│   │   └── style.css     # Styling
-│   └── js/
-│       └── script.js     # Client-side logic
-├── database/
-│   └── urls.db           # SQLite database
-└── README.md             # This file
+├── app.py              # Flask app, routes, code generation, SQLite logic
+├── requirements.txt    # Runtime dependencies
+├── templates/          # Jinja/HTML templates
+├── static/             # Frontend assets
+├── urls.db             # Runtime-created SQLite database
+└── README.md           # You are here ✨
 ```
 
----
+## 🧪 Try it manually
 
-## 🎨 Features in Detail
-
-### 🔗 URL Shortening Algorithm
-- Generates unique, collision-free short codes
-- Uses alphanumeric characters for maximum compatibility
-- Customizable short code length
-
-### 📈 Analytics Dashboard
-- Track total clicks per URL
-- View creation timestamp
-- Monitor original URL information
-
-### 🔒 Security Features
-- URL validation before storage
-- Prevention of duplicate entries
-- Sanitized input handling
-
----
-
-## 🔧 Configuration
-
-Edit `config.py` to customize:
-
-```python
-# Database settings
-DATABASE_PATH = 'database/urls.db'
-
-# Short URL settings
-SHORT_CODE_LENGTH = 6
-
-# Server settings
-DEBUG = True
-HOST = '0.0.0.0'
-PORT = 5000
-```
-
----
-
-## 📚 Dependencies
-
-```
-Flask==2.3.0
-Flask-SQLAlchemy==3.0.0
-python-dotenv==1.0.0
-```
-
-Install all with:
 ```bash
-pip install -r requirements.txt
+# Start the server
+python app.py
+
+# Create a link
+curl -X POST http://127.0.0.1:5000/shorten \
+  -d "url=github.com"
+
+# Then open the generated link in your browser
 ```
 
----
+## 🔐 Notes for production
 
-## 🚀 Deployment
+This project is intentionally small and ideal for learning or local use. Before deploying publicly, consider:
 
-### Deploy to Heroku
-```bash
-# Install Heroku CLI
-# Login to Heroku
-heroku login
+- Run Flask with a production WSGI server instead of the development server.
+- Set `debug=False` in production.
+- Add stronger URL validation and abuse/rate-limit protection.
+- Protect and back up `urls.db`.
+- Add tests, structured error pages, and observability.
+- Consider cryptographically secure code generation for higher-stakes deployments.
 
-# Create app
-heroku create your-app-name
+## 🗺️ Roadmap
 
-# Deploy
-git push heroku main
-
-# View logs
-heroku logs --tail
-```
-
-### Deploy to PythonAnywhere
-1. Sign up at [PythonAnywhere](https://www.pythonanywhere.com)
-2. Upload your code
-3. Configure WSGI settings
-4. Start your web app
-
-### Deploy to AWS/GCP
-Use Docker containerization for easy deployment:
-
-```dockerfile
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["python", "app.py"]
-```
-
----
-
-## 🐛 Troubleshooting
-
-### Issue: Port 5000 already in use
-```bash
-# Use a different port
-python app.py --port 5001
-```
-
-### Issue: Database errors
-```bash
-# Reset database
-rm database/urls.db
-python app.py  # Database will be recreated
-```
-
-### Issue: Module not found
-```bash
-# Ensure virtual environment is activated
-pip install -r requirements.txt
-```
-
----
-
-## 📈 Usage Statistics
-
-Track your URL performance:
-- **Total URLs shortened**: Stored in database
-- **Click-through rate**: Monitor engagement
-- **Most popular links**: Identify trending content
-
----
+- [ ] Custom aliases
+- [ ] URL expiration
+- [ ] Click analytics
+- [ ] QR code generation
+- [ ] JSON API responses
+- [ ] Rate limiting and stronger validation
+- [ ] Automated tests and CI
+- [ ] Dark mode 🌙
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how to help:
+Have an upgrade idea? Contributions are welcome!
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the project.
+2. Create a branch: `git checkout -b feature/my-upgrade`
+3. Make your change and test it locally.
+4. Commit: `git commit -m "Add my upgrade"`
+5. Push and open a pull request.
 
----
-
-## 📋 Roadmap
-
-- [ ] User authentication & accounts
-- [ ] Custom short codes
-- [ ] QR code generation
-- [ ] Advanced analytics dashboard
-- [ ] URL expiration dates
-- [ ] API rate limiting
-- [ ] Dark mode UI
-- [ ] Export statistics to CSV
-
----
+Please keep changes focused and document new behavior in the README.
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the LICENSE file for details.
+No license file is currently included in the repository. Add a `LICENSE` file before distributing the project under a specific open-source license.
 
----
+## 🌟 Support the project
 
-## 👨‍💻 Author
+If LinkForge helped you learn something, **star the repo**, open an issue, or submit an improvement:
 
-**vibecodersxdddddd**
-- GitHub: [@vibecodersxdddddd](https://github.com/vibecodersxdddddd)
-- Project: [URL Shortener Flask](https://github.com/vibecodersxdddddd/url-shortener-flasks)
-
----
-
-## 🌟 Support
-
-If you found this project helpful, please consider:
-- ⭐ Starring the repository
-- 🐛 Reporting issues
-- 💬 Sharing feedback
-- 🤝 Contributing improvements
-
----
-
-## 📞 Contact & Support
-
-- **Issues**: [GitHub Issues](https://github.com/vibecodersxdddddd/url-shortener-flasks/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/vibecodersxdddddd/url-shortener-flasks/discussions)
-
----
+- [⭐ Star on GitHub](https://github.com/vibecodersxdddddd/url-shortener-flasks)
+- [🐛 Report an issue](https://github.com/vibecodersxdddddd/url-shortener-flasks/issues)
 
 <div align="center">
 
-### Made with ❤️ by the URL Shortener Team
+<br />
 
-**Star this repo if you found it useful! ⭐**
+**Made with Python, Flask, and an unreasonable love of tiny links.** 🔗⚡
 
 </div>
